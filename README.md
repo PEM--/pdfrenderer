@@ -36,7 +36,7 @@ if Meteor.isClient
     # Create the initial PDF document
     pdf = new PdfRenderer size: 'a4'
     # Load all required assets
-    pdf.addAsset "/cfs/files/images/#{@data.images}" if t.data.images
+    pdf.addAsset "/cfs/files/images/#{@data.images}" if @data.images
     # Use reactivity for loading assets if any
     @autorun ->
       if pdf.ready()
