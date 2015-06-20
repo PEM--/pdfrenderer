@@ -1,6 +1,10 @@
 # A client side PDF Renderer
 Enhance client side PDFKit.
 
+Help creating PDF on the client side using simple HTML primitives like
+h1, h2, p, img, br, hr. Can take a SimpleSchema, parse it and display
+a simple PDF out of it.
+
 ## Installation
 ```bash
 meteor add pierreeric:pdfrenderer
