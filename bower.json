@@ -1,0 +1,28 @@
+{
+  "name": "PdfRenderer",
+  "version": "0.0.1",
+  "homepage": "https://github.com/PEM--/pdfrenderer",
+  "authors": [
+    "Pierre-Eric Marchandet <pemarchandet@gmail.com>"
+  ],
+  "description": "Client side PDF renderer",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bower-pdfkit": "0.7.0",
+    "html2canvas": "0.5.0-alpha2"
+  },
+  "ignoredDependencies": [
+    "jquery"
+  ],
+  "overrides": {
+    "bower-pdfkit": { "arch": [ "client" ] },
+    "html2canvas": { "arch": [ "client" ] }
+  }
+}

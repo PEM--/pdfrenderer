@@ -1,0 +1,37 @@
+{
+  "name": "bower-pdfkit",
+  "version": "0.7.0",
+  "authors": [
+    "nidheeshdas thavorath <nidheeshdas@gmail.com>"
+  ],
+  "main": [
+    "pdfkit-0.7.0.js",
+    "blob-stream-v0.1.2.js"
+  ],
+  "description": "bower installer for pdfkit",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "pdfkit",
+    "blob-stream"
+  ],
+  "license": "MIT",
+  "homepage": "pdfkit.org",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "0.7.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.7.0",
+    "commit": "928b129bbd269852d27fd60fc5d628c25dd2cb25"
+  },
+  "_source": "git://github.com/nidheeshdas/bower-pdfkit.git",
+  "_target": "0.7.0",
+  "_originalSource": "bower-pdfkit"
+}
