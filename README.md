@@ -55,7 +55,7 @@ if Meteor.isClient
 [API](doc/api.md)
 
 ## Links
-* [PDFLit](http://pdfkit.org/)
+* [PDFKit](http://pdfkit.org/)
 * [SimpleSchema](https://github.com/aldeed/meteor-simple-schema)
 * [tap-i18n](https://github.com/TAPevents/tap-i18n)
 * [RxBufferDownload](https://github.com/PEM--/rxbufferdownload)
