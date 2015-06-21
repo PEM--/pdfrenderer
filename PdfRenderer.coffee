@@ -29,6 +29,18 @@ Meteor.startup ->
       rxAsset = new RxBufferDownload url
       @waitList.wait -> rxAsset.get()
       @assets[url] = rxAsset
+    ###*
+     * Create a screenshot from an element within a template.
+     * @param {String} unique Unique name used in the `img` method.
+     * @param  {Object}  tpl Blaze template.
+     * @param  {String}  el  CSS selector of the element within the template.
+     * @param  {Object}  styles A dictionary of styles to inline in the SVG
+     *                          if the content is SVG based. It takes the form
+     *                          of a CSS selector and a table of property to
+     *                          inline.
+     * @param  {Number}  width  Width's of the image, null for the viewport's
+     *                          width.
+    ###
     addScreenshot: (unique, tpl, el, styles = null, width = null) ->
       rxAsset = new RxScreenshot tpl, el, styles, width
       @waitList.wait -> rxAsset.get()
@@ -70,7 +82,7 @@ Meteor.startup ->
     br: (nb = 1) -> @moveDown nb
     ###*
      * Insert a line.
-     * @return {Object}      this.
+     * @return {Object} this.
     ###
     hr: ->
       @moveDown .5
@@ -85,12 +97,12 @@ Meteor.startup ->
      * Insert an image already downloaded using the `addAsset` method.
      * @param  {String} url     URL of the image.
      * @param  {String} pos     Position of the image:
-     *                          * `INLINE`: Directly within the text.
+     *                          * `INLINE`: Directly within the text (default).
      *                          * `RIGHT`: Right aligned to text (need width).
      * @param  {Object} options Options as provided by `image` method of PDFKit.
      * @return {Object}         this.
     ###
-    img: (url, pos, options) ->
+    img: (url, pos = 'INLINE', options) ->
       imgArrayBuffer = @assets[url].getBuffer()
       switch pos
         when 'INLINE' then @image imgArrayBuffer, options
@@ -101,7 +113,6 @@ Meteor.startup ->
           @image imgArrayBuffer, x, y, options
           @moveTo oldX, oldY
           [@x, @y] = [oldX, oldY]
-      console.log 'Array', @assets
       @
     ###*
      * Insert elements from a SimpleSchema if their content

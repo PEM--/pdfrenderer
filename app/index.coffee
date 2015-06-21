@@ -61,10 +61,8 @@ if Meteor.isClient
       @customer = Customers.findOne() if @sub.ready()
   # Here, we create a simple bar chart
   Template.svgTest.onRendered ->
-    console.log 'Data'
     @autorun =>
       if @sub.ready()
-        console.log 'Data are ready', @customer
         width = 400
         height = 200
         y = d3.scale.linear().range [height, 0]
