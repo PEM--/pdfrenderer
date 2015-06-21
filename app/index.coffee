@@ -35,15 +35,16 @@ if Meteor.isServer
 
 if Meteor.isClient
   Template.svgTest.onCreated ->
-    console.log 'Template create'
+    sub = @subscribe 'customers'
     @autorun =>
-      sub = @subscribe 'customers'
       if sub.ready()
         @data = Customers.findOne()
-        console.log 'Data received', @data
-
+        console.log 'Sub ready', @data
+  Template.svgTest.helpers
+    customer: -> Customers.findOne()
   Template.svgTest.events
     'click button': (e, t) ->
+      console.log 'template', t
       # Create the initial PDF document
       pdf = new PdfRenderer size: 'a4'
       # Load all required assets

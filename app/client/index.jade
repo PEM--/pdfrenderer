@@ -5,5 +5,14 @@ body
 
 template(name='svgTest')
   button PDF
-  br
+  hr
+  if Template.subscriptionsReady
+    with customer
+      h1= name
+      with address
+        p= street
+        p= city
+  else
+    p Loading...
+  hr
   svg.chart
