@@ -13,6 +13,8 @@ meteor add pierreeric:pdfrenderer
 ```
 
 ## Example usage
+Here is the generated PDF from this sample app: [sample](doc/file-mathilde-charpentier-pdf).
+
 ```coffee
 CustomerSchema = new SimpleSchema
   name:
