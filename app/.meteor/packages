@@ -10,3 +10,7 @@ mquandalle:jade
 mquandalle:stylus
 d3js:d3
 pierreeric:pdfrenderer
+aldeed:autoform
+aldeed:collection2
+aldeed:simple-schema
+tap:i18n
