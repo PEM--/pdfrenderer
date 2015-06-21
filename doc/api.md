@@ -27,6 +27,20 @@ the provided URL.
 
 * **String** *url* URL of the downloaded assets.
 
+## addScreenshot(unique, tpl, el, styles, width)
+
+Create a screenshot from an element within a template.
+
+### Params:
+
+* **String** *unique* Unique name used in the `img` method.
+* **Object** *tpl* Blaze template.
+* **String** *el* CSS selector of the element within the template.
+* **Object** *styles* A dictionary of styles to inline in the SVG                          if the content is SVG based. It takes the form
+                         of a CSS selector and a table of property to
+                         inline.
+* **Number** *width* Width's of the image, null for the viewport's                          width.
+
 ## ready()
 
 Reactive ready state on the Iron.WaitList of assets.
@@ -110,8 +124,7 @@ Insert an image already downloaded using the `addAsset` method.
 ### Params:
 
 * **String** *url* URL of the image.
-* **String** *pos* Position of the image: 
-                         * `INLINE`: Directly within the text.
+* **String** *pos* Position of the image:                          * `INLINE`: Directly within the text (default).
                          * `RIGHT`: Right aligned to text (need width).
 * **Object** *options* Options as provided by `image` method of PDFKit.
 
