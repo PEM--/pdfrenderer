@@ -1,4 +1,7 @@
 {
+  /* Required for Schema presentation */
+  "colon": " : ",
+  /* Specific to example */
   "name": "Nom",
   "images": "Images",
   "address": "Adresse",

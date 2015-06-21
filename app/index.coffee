@@ -38,10 +38,9 @@ if Meteor.isClient
     sub = @subscribe 'customers'
     @autorun =>
       if sub.ready()
-        @data = Customers.findOne()
-        console.log 'Sub ready', @data
+        @customer = Customers.findOne()
   Template.svgTest.helpers
-    customer: -> Customers.findOne()
+    customer: -> Template.instance().customer
   Template.svgTest.events
     'click button': (e, t) ->
       console.log 'template', t
@@ -53,12 +52,14 @@ if Meteor.isClient
       t.autorun ->
         if pdf.ready()
           # Customer image if exists
-          if t.data.images?
-            pdf.img "/cfs/files/images/#{t.data.images}", 'RIGHT', width: 100
+          if t.customer.images?
+            pdf.img "/cfs/files/images/#{t.customer.images}", 'RIGHT',
+              width: 100
           # Customer's name
-          pdf.h1 t.data.name
+          pdf.h1 t.customer.name
           # Address of customer
           pdf.h2 TAPi18n.__ 'address'
-          pdf.schema CustomerSchema, 'address', t.data
+          console.log 'Customer', t.customer
+          pdf.schema CustomerSchema, 'address', t.customer
           # End the PDF document, display it and enable back the PDF button
           pdf.finish -> console.log 'PDF finished'

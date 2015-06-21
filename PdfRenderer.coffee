@@ -115,14 +115,14 @@ Meteor.startup ->
         if def.pdf
           # Set value for select/option kind of values
           if def.autoform?.afFieldInput?.type is 'select'
-            value = TAPi18n.__ data.building_info[label]
+            value = TAPi18n.__ data[keyFilter][label]
           # Set value for other types
           else
-            value = String(data.building_info[label])
+            value = String(data[keyFilter][label])
             # Add units if available in the schema
             if def.autoform?.afFieldInput?.unit?
               value += ' ' + def.autoform.afFieldInput.unit()
-          pdf.p TAPi18n.__(label) + TAPi18n.__('colon') + value
+          @p TAPi18n.__(label) + TAPi18n.__('colon') + value
     ###*
      * End document and open a new window containing the PDF.
      * @param  {String} filename Filename for the generated PDF. Note that

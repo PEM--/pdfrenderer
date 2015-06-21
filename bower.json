@@ -23,6 +23,9 @@
   ],
   "overrides": {
     "bower-pdfkit": { "arch": [ "client" ] },
-    "FileSaver": { "arch": [ "client" ] }
+    "FileSaver": {
+      "main": [ "FileSaver.js"],
+      "arch": [ "client" ]
+    }
   }
 }

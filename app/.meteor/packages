@@ -8,6 +8,7 @@ meteor-platform
 coffeescript
 mquandalle:jade
 mquandalle:stylus
+mquandalle:bower
 d3js:d3
 pierreeric:pdfrenderer
 aldeed:autoform

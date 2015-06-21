@@ -1,6 +1,7 @@
 # 0.0.3 - Screenshots & SVG
 * Insert part of the template as image in the PDF.
 * Insert SVG from the template as image in the PDF.
+* Better file saving via [FileSaver.js](https://github.com/eligrey/FileSaver.js/).
 
 # 0.0.2 - New primitives & Filename support
 * Use [FileSaver](https://github.com/eligrey/FileSaver.js) for a better filename handling.

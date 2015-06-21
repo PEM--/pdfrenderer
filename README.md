@@ -55,7 +55,7 @@ if Meteor.isClient
         pdf.h2 TAPi18n.__ 'address'
         pdf.schema CustomerSchema, 'address', @data
         # End the PDF document, display it and enable back the PDF button
-        pdf.finish -> console.log 'PDF finished'  
+        pdf.finish "file#{@data.name}.pdf", -> console.log 'PDF finished'
 ```
 
 ## API
@@ -67,10 +67,19 @@ if Meteor.isClient
 * [tap-i18n](https://github.com/TAPevents/tap-i18n)
 * [RxBufferDownload](https://github.com/PEM--/rxbufferdownload)
 * [html2canvas](http://html2canvas.hertzen.com/)
+* [FileSaver.js](https://github.com/eligrey/FileSaver.js/)
 
 ## FAQ
 ### Contributions
 Contributions are very welcomed. Feel free to PR for enhancing this package.
+
+### i18n minimum file
+Your i18n file must at least contain the following for using SimpleSchema:
+```json
+{
+  "colon": ": "
+}
+```
 
 ### Testing
 A test application is provided in the `app` folder.
