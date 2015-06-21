@@ -1,6 +1,6 @@
 {
   "name": "PdfRenderer",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "homepage": "https://github.com/PEM--/pdfrenderer",
   "authors": [
     "Pierre-Eric Marchandet <pemarchandet@gmail.com>"

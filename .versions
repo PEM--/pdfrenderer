@@ -22,7 +22,7 @@ minimongo@1.0.8
 mquandalle:bower@1.4.1
 observe-sequence@1.0.6
 ordered-dict@1.0.3
-pierreeric:pdfrenderer@0.0.1
+pierreeric:pdfrenderer@0.0.2
 random@1.0.3
 reactive-dict@1.1.0
 reactive-var@1.0.5
@@ -31,3 +31,4 @@ templating@1.1.1
 tracker@1.0.7
 ui@1.0.6
 underscore@1.0.3
+underscorestring:underscore.string@3.1.1
