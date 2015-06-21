@@ -29,6 +29,10 @@ Meteor.startup ->
       rxAsset = new RxBufferDownload url
       @waitList.wait -> rxAsset.get()
       @assets[url] = rxAsset
+    addScreenshot: (unique, tpl, el, styles = null, width = null) ->
+      rxAsset = new RxScreenshot tpl, el, styles, width
+      @waitList.wait -> rxAsset.get()
+      @assets[unique] = rxAsset
     ###*
      * Reactive ready state on the Iron.WaitList of assets.
      * @return {Boolean} true if all assets are downloaded, false otherwise.
@@ -97,6 +101,7 @@ Meteor.startup ->
           @image imgArrayBuffer, x, y, options
           @moveTo oldX, oldY
           [@x, @y] = [oldX, oldY]
+      console.log 'Array', @assets
       @
     ###*
      * Insert elements from a SimpleSchema if their content

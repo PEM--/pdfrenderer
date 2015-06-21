@@ -97,17 +97,27 @@ if Meteor.isClient
       pdf = new PdfRenderer size: 'a4'
       # Load all required assets
       pdf.addAsset "/cfs/files/images/#{t.customer.images}" if t.customer.images
+      # Load all SVG
+      pdf.addScreenshot 'svg-chart', t, 'svg.chart'
+      ,
+        rect: fill: 'steelblue'
+        text:
+          fill: 'white'
+          font: '10px sans-serif'
+          'text-anchor': 'middle'
+      , 400
       # Use reactivity for loading assets if any
       t.autorun ->
         if pdf.ready()
           # Customer image if exists
           if t.customer.images?
-            pdf.img "/cfs/files/images/#{t.customer.images}", 'RIGHT',
-              width: 100
+            pdf.img "/cfs/files/images/#{t.customer.images}",'RIGHT',width:100
           # Customer's name
           pdf.h1 t.customer.name
           # Address of customer
           pdf.h2 TAPi18n.__ 'address'
           pdf.schema CustomerSchema, 'address', t.customer
-          # End the PDF document, display it and enable back the PDF button
+          # Graph of the purchase figure
+          pdf.img 'svg-chart'
+          # End the PDF document and display it
           pdf.finish "file-#{t.customer.name}.pdf", -> console.log 'PDF done'
