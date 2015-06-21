@@ -81,7 +81,6 @@ Meteor.startup ->
      * Insert an image already downloaded using the `addAsset` method.
      * @param  {String} url     URL of the image.
      * @param  {String} pos     Position of the image:
-     *
      *                          * `INLINE`: Directly within the text.
      *                          * `RIGHT`: Right aligned to text (need width).
      * @param  {Object} options Options as provided by `image` method of PDFKit.

@@ -6,5 +6,8 @@
   "images": "Images",
   "address": "Address",
   "street": "Street",
-  "city": "City"
+  "city": "City",
+  "purchases": "Purchases",
+  "label": "Label",
+  "number": "Number"
 }

@@ -1,3 +1,5 @@
+# In this SimpleSchema, some content are set as 'pdf: true'
+# for automatic rendering.
 CustomerSchema = new SimpleSchema
   name:
     type: String
@@ -20,10 +22,19 @@ CustomerSchema = new SimpleSchema
     type: String
     label: TAPi18n.__ 'city'
     pdf: true
-
-Customers = new Mongo.Collection 'customers'
+  purchases:
+    type: [Object]
+    label: TAPi18n.__ 'purchases'
+  'purchases.$.label':
+    type: String
+    label: TAPi18n.__ 'label'
+  'purchases.$.number':
+    type: Number
+    label: TAPi18n.__ 'number'
+@Customers = new Mongo.Collection 'customers'
 Customers.attachSchema CustomerSchema
 
+# On the server, we create a single customer and publish it.
 if Meteor.isServer
   if Customers.find().count() is 0
     Customers.insert
@@ -31,16 +42,55 @@ if Meteor.isServer
       address:
         street: '227 rue, Camille de Richelieu'
         city: 'Strasbourg'
+      purchases: [
+        {label: 'Bike', number: 10}
+        {label: 'Helmet', number: 8}
+        {label: 'Tire', number: 3}
+        {label: 'Chain', number: 6}
+        {label: 'Brake', number: 24}
+      ]
   Meteor.publish 'customers', -> Customers.find()
 
+# Client side specific
 if Meteor.isClient
+  # Here we use the template level subscription, some adaptation are required
+  #  when using iron:router (use the data context).
   Template.svgTest.onCreated ->
-    sub = @subscribe 'customers'
+    @sub = @subscribe 'customers'
     @autorun =>
-      if sub.ready()
-        @customer = Customers.findOne()
-  Template.svgTest.helpers
-    customer: -> Template.instance().customer
+      @customer = Customers.findOne() if @sub.ready()
+  # Here, we create a simple bar chart
+  Template.svgTest.onRendered ->
+    console.log 'Data'
+    @autorun =>
+      if @sub.ready()
+        console.log 'Data are ready', @customer
+        width = 400
+        height = 200
+        y = d3.scale.linear().range [height, 0]
+        chart = d3.select('.chart').attr('width', width).attr 'height', height
+        data = @customer.purchases
+        y.domain [0, d3.max data, (d) -> d.number]
+        barWidth = width / data.length
+        bar = chart
+          .selectAll 'g'
+          .data data
+          .enter()
+          .append 'g'
+          .attr 'transform', (d, i) -> 'translate(' + i * barWidth + ',0)'
+        bar
+          .append 'rect'
+          .attr 'y', (d) -> y d.number
+          .attr 'height', (d) -> height - y d.number
+          .attr 'width', barWidth - 1
+        bar
+          .append 'text'
+          .attr 'x', barWidth / 2
+          .attr 'y', (d) -> 3 + y d.number
+          .attr 'dy', '.75em'
+          .text (d) -> d.number
+  Template.svgTest.helpers customer: -> Template.instance().customer
+  # Handle events for the PDF button
   Template.svgTest.events
     'click button': (e, t) ->
       # Create the initial PDF document
@@ -60,5 +110,4 @@ if Meteor.isClient
           pdf.h2 TAPi18n.__ 'address'
           pdf.schema CustomerSchema, 'address', t.customer
           # End the PDF document, display it and enable back the PDF button
-          pdf.finish "file-#{t.customer.name}.pdf", ->
-            console.log 'PDF finished'
+          pdf.finish "file-#{t.customer.name}.pdf", -> console.log 'PDF done'
