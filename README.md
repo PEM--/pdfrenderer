@@ -3,7 +3,9 @@ Enhance client side PDFKit:
 - Adds HTML primitives like h1, h2, h3, p, img, br, hr.
 - Can take a SimpleSchema, parse it and render it.
 - Support for internationalization.
-- Support for Images embedded in CollectionFS.
+- Can render external image or images within CollectionFS.
+- Support regular SVG as well as D3 SVG.
+- Can add screenshot of a rendered Blaze's template.
 
 ## Installation
 ```bash

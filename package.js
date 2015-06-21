@@ -17,7 +17,9 @@ Package.onUse(function(api) {
     'mquandalle:bower@1.4.1',
     'iron:controller@1.0.8',
     'aldeed:simple-schema@1.3.3',
-    'underscorestring:underscore.string@3.1.1'
+    'underscorestring:underscore.string@3.1.1',
+    'pierreeric:rxbufferdownload@0.0.1',
+    'pierreeric:rxscreenshot@0.0.1'
   ]);
   api.imply('aldeed:simple-schema');
   // Imported files for client
