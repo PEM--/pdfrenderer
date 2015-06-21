@@ -18,7 +18,7 @@ C-tor: Create a PDF document instance.
 
 ## addAsset(url)
 
-Download assets reactively putting them in an Iron.WaitList
+Download assets reactively putting them in an `Iron.WaitList`
 (see iron:router and eventedmind.com for futher details).
 All assets are stored in a dictionary ensuring retrieval based on
 the provided URL.
@@ -50,6 +50,18 @@ Insert a title.
 ## h2(text)
 
 Insert a sub-title.
+
+### Params:
+
+* **String** *text* Text of the title.
+
+### Return:
+
+* **Object** this.
+
+## h3(text)
+
+Insert a sub-sub-title.
 
 ### Params:
 
@@ -93,14 +105,15 @@ Insert a line.
 
 ## img(url, pos, options)
 
-Insert an image already downloaded using the 'addAsset' method.
+Insert an image already downloaded using the `addAsset` method.
 
 ### Params:
 
 * **String** *url* URL of the image.
-* **String** *pos* Position of the image:                          - INLINE: Directly within the text.
-                         - RIGHT: Right aligned to the text (need width).
-* **Object** *options* Options as provided by 'image' method of PDFKit.
+* **String** *pos* Position of the image: 
+                         * `INLINE`: Directly within the text.
+                         * `RIGHT`: Right aligned to text (need width).
+* **Object** *options* Options as provided by `image` method of PDFKit.
 
 ### Return:
 
@@ -121,12 +134,16 @@ Insert elements from a SimpleSchema if their content
 
 * **Object** this.
 
-## finish(callback)
+## finish(filename, callback)
 
 End document and open a new window containing the PDF.
 
 ### Params:
 
+* **String** *filename* Filename for the generated PDF. Note that                           the filename is [slugified](https://github.\
+                          com/epeli/underscore.string#\
+                          slugifystring--string) for better OS
+                          compatibility.
 * **Function** *callback* Callback executed after the PDF processing.
 
 <!-- End PdfRenderer.coffee -->

@@ -19,7 +19,7 @@ Meteor.startup ->
       @waitList = new Iron.WaitList
       @assets = {}
     ###*
-     * Download assets reactively putting them in an Iron.WaitList
+     * Download assets reactively putting them in an `Iron.WaitList`
      * (see iron:router and eventedmind.com for futher details).
      * All assets are stored in a dictionary ensuring retrieval based on
      * the provided URL.
@@ -47,6 +47,12 @@ Meteor.startup ->
     ###
     h2: (text) -> @fontSize(18).text text
     ###*
+     * Insert a sub-sub-title.
+     * @param  {String} text Text of the title.
+     * @return {Object} this.
+    ###
+    h3: (text) -> @fontSize(14).text text
+    ###*
      * Insert a paragraph.
      * @param  {String} text Text of the paragraph.
      * @return {Object} this.
@@ -72,12 +78,13 @@ Meteor.startup ->
       @stroke()
       @moveDown .5
     ###*
-     * Insert an image already downloaded using the 'addAsset' method.
+     * Insert an image already downloaded using the `addAsset` method.
      * @param  {String} url     URL of the image.
      * @param  {String} pos     Position of the image:
-     *                          - INLINE: Directly within the text.
-     *                          - RIGHT: Right aligned to the text (need width).
-     * @param  {Object} options Options as provided by 'image' method of PDFKit.
+     *
+     *                          * `INLINE`: Directly within the text.
+     *                          * `RIGHT`: Right aligned to text (need width).
+     * @param  {Object} options Options as provided by `image` method of PDFKit.
      * @return {Object}         this.
     ###
     img: (url, pos, options) ->
@@ -118,13 +125,16 @@ Meteor.startup ->
           pdf.p TAPi18n.__(label) + TAPi18n.__('colon') + value
     ###*
      * End document and open a new window containing the PDF.
+     * @param  {String} filename Filename for the generated PDF. Note that
+     *                           the filename is [slugified](https://github.\
+     *                           com/epeli/underscore.string#\
+     *                           slugifystring--string) for better OS
+     *                           compatibility.
      * @param  {Function} callback Callback executed after the PDF processing.
     ###
-    finish: (callback) ->
+    finish: (filename, callback) ->
       @end()
       @stream.on 'finish', =>
-        content = @stream.toBlobURL 'application/pdf'
-        # Open a new window for displaying the created PDF
-        window.open content
+        saveAs @stream.toBlob(), s.slugify filename
         # Call provided callback
         callback()

@@ -1,9 +1,9 @@
 # A client side PDF Renderer
-Enhance client side PDFKit.
-
-Help creating PDF on the client side using simple HTML primitives like
-h1, h2, p, img, br, hr. Can take a SimpleSchema, parse it and display
-a simple PDF out of it.
+Enhance client side PDFKit:
+- Adds HTML primitives like h1, h2, h3, p, img, br, hr.
+- Can take a SimpleSchema, parse it and render it.
+- Support for internationalization.
+- Support for Images embedded in CollectionFS.
 
 ## Installation
 ```bash
@@ -64,3 +64,16 @@ if Meteor.isClient
 * [SimpleSchema](https://github.com/aldeed/meteor-simple-schema)
 * [tap-i18n](https://github.com/TAPevents/tap-i18n)
 * [RxBufferDownload](https://github.com/PEM--/rxbufferdownload)
+* [html2canvas](http://html2canvas.hertzen.com/)
+
+## FAQ
+### Contributions
+Contributions are very welcomed. Feel free to PR for enhancing this package.
+
+### Enhancing documentation
+API's documentation uses [DocBlockr](https://atom.io/packages/docblockr) syntax.
+Generates the API's documentation using [markdox](https://github.com/cbou/markdox).
+
+```bash
+markdox PdfRenderer.coffee -o doc/api.md
+```
