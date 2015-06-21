@@ -43,11 +43,10 @@ if Meteor.isClient
     customer: -> Template.instance().customer
   Template.svgTest.events
     'click button': (e, t) ->
-      console.log 'template', t
       # Create the initial PDF document
       pdf = new PdfRenderer size: 'a4'
       # Load all required assets
-      #pdf.addAsset "/cfs/files/images/#{t.data.images?}" if t.data.images?
+      pdf.addAsset "/cfs/files/images/#{t.customer.images}" if t.customer.images
       # Use reactivity for loading assets if any
       t.autorun ->
         if pdf.ready()
@@ -59,7 +58,7 @@ if Meteor.isClient
           pdf.h1 t.customer.name
           # Address of customer
           pdf.h2 TAPi18n.__ 'address'
-          console.log 'Customer', t.customer
           pdf.schema CustomerSchema, 'address', t.customer
           # End the PDF document, display it and enable back the PDF button
-          pdf.finish -> console.log 'PDF finished'
+          pdf.finish "file-#{t.customer.name}.pdf", ->
+            console.log 'PDF finished'

@@ -37,25 +37,47 @@ CustomerSchema = new SimpleSchema
     label: TAPi18n.__ 'city'
     pdf: true
 
+Customers = new Mongo.Collection 'customers'
+Customers.attachSchema CustomerSchema
+
+if Meteor.isServer
+  if Customers.find().count() is 0
+    Customers.insert
+      name: 'Mathilde Charpentier'
+      address:
+        street: '227 rue, Camille de Richelieu'
+        city: 'Strasbourg'
+  Meteor.publish 'customers', -> Customers.find()
+
 if Meteor.isClient
-  Template.pdf.onCreated ->
-    # Create the initial PDF document
-    pdf = new PdfRenderer size: 'a4'
-    # Load all required assets
-    pdf.addAsset "/cfs/files/images/#{@data.images}" if @data.images
-    # Use reactivity for loading assets if any
-    @autorun ->
-      if pdf.ready()
-        # Customer image if exists
-        if @data.images
-          pdf.img "/cfs/files/images/#{@data.images}", 'RIGHT', width: 100
-        # Customer's name
-        pdf.h1 @data.name
-        # Address of customer
-        pdf.h2 TAPi18n.__ 'address'
-        pdf.schema CustomerSchema, 'address', @data
-        # End the PDF document, display it and enable back the PDF button
-        pdf.finish "file#{@data.name}.pdf", -> console.log 'PDF finished'
+  Template.svgTest.onCreated ->
+    sub = @subscribe 'customers'
+    @autorun =>
+      if sub.ready()
+        @customer = Customers.findOne()
+  Template.svgTest.helpers
+    customer: -> Template.instance().customer
+  Template.svgTest.events
+    'click button': (e, t) ->
+      # Create the initial PDF document
+      pdf = new PdfRenderer size: 'a4'
+      # Load all required assets
+      pdf.addAsset "/cfs/files/images/#{t.customer.images}" if t.customer.images
+      # Use reactivity for loading assets if any
+      t.autorun ->
+        if pdf.ready()
+          # Customer image if exists
+          if t.customer.images?
+            pdf.img "/cfs/files/images/#{t.customer.images}", 'RIGHT',
+              width: 100
+          # Customer's name
+          pdf.h1 t.customer.name
+          # Address of customer
+          pdf.h2 TAPi18n.__ 'address'
+          pdf.schema CustomerSchema, 'address', t.customer
+          # End the PDF document, display it and enable back the PDF button
+          pdf.finish "file-#{t.customer.name}.pdf", ->
+            console.log 'PDF finished'
 ```
 
 ## API
