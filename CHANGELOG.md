@@ -1,3 +1,6 @@
+# 0.0.4 - Options for image placement
+* `FULL`: Full width of the page.
+
 # 0.0.3 - Screenshots & SVG
 * Insert part of the template as image in the PDF.
 * Insert SVG from the template as image in the PDF.

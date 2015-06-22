@@ -98,6 +98,7 @@ Meteor.startup ->
      * @param  {String} url     URL of the image.
      * @param  {String} pos     Position of the image:
      *                          * `INLINE`: Directly within the text (default).
+     *                          * `FULL`: Full width of the page.
      *                          * `RIGHT`: Right aligned to text (need width).
      * @param  {Object} options Options as provided by `image` method of PDFKit.
      * @return {Object}         this.
@@ -106,6 +107,9 @@ Meteor.startup ->
       imgArrayBuffer = @assets[url].getBuffer()
       switch pos
         when 'INLINE' then @image imgArrayBuffer, options
+        when 'FULL'
+          @image imgArrayBuffer,
+            width: @page.width - @page.margins.right - @page.margins.left
         when 'RIGHT'
           [oldX, oldY] = [@x, @y]
           x = @page.width - options.width - @page.margins.right

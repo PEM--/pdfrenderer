@@ -125,6 +125,7 @@ Insert an image already downloaded using the `addAsset` method.
 
 * **String** *url* URL of the image.
 * **String** *pos* Position of the image:                          * `INLINE`: Directly within the text (default).
+                         * `FULL`: Full width of the page.
                          * `RIGHT`: Right aligned to text (need width).
 * **Object** *options* Options as provided by `image` method of PDFKit.
 
