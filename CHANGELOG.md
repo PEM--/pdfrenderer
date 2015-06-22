@@ -1,6 +1,7 @@
 # 0.0.4 - Options for image placement
 * `FULL`: Full width of the page.
 * `RATIO`: A ratio of the full page's width.
+* Pack multiple `RATIO` images on a single row.
 
 # 0.0.3 - Screenshots & SVG
 * Insert part of the template as image in the PDF.

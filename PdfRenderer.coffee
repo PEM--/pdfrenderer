@@ -112,13 +112,35 @@ Meteor.startup ->
         when 'FULL'
           @image imgArrayBuffer,
             width: @page.width - @page.margins.right - @page.margins.left
+        when 'RATIO'
+          fullPageWidth = @page.width - @page.margins.right - @page.margins.left
+          @image imgArrayBuffer, width: fullPageWidth * options
         when 'RIGHT'
           [oldX, oldY] = [@x, @y]
           x = @page.width - options.width - @page.margins.right
           y = @y
           @image imgArrayBuffer, x, y, options
-          @moveTo oldX, oldY
           [@x, @y] = [oldX, oldY]
+      @
+    ###*
+     * Pack images ratio on a single row.
+     * @param  {Array} imgs An array of `img` in `RATIO` mode.
+     * @return {Object} this.
+    ###
+    packRatioImgs: (imgs) ->
+      x = futureX = @page.margins.left
+      y = futureY = @y
+      fullPageWidth = @page.width - @page.margins.right - @page.margins.left
+      for img, idx in imgs
+        imgArrayBuffer = @assets[img.url].getBuffer()
+        width = fullPageWidth * img.options
+        if idx is 0
+          @image imgArrayBuffer, width: width
+          futureY = @y
+        else
+          @image imgArrayBuffer, x, y, width: width
+        x += width
+      [@x, @y] = [futureX, futureY]
       @
     ###*
      * Insert elements from a SimpleSchema if their content

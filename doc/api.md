@@ -134,6 +134,18 @@ Insert an image already downloaded using the `addAsset` method.
 
 * **Object** this.
 
+## packRatioImgs(imgs)
+
+Pack images ratio on a single row.
+
+### Params:
+
+* **Array** *imgs* An array of `img` in `RATIO` mode.
+
+### Return:
+
+* **Object** this.
+
 ## schema(Schema, keyFilter, data)
 
 Insert elements from a SimpleSchema if their content
