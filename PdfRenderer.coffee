@@ -135,10 +135,13 @@ Meteor.startup ->
         imgArrayBuffer = @assets[img.url].getBuffer()
         width = fullPageWidth * img.options
         if idx is 0
-          @image imgArrayBuffer, width: width
+          res = @image imgArrayBuffer, width: width
           futureY = @y
         else
-          @image imgArrayBuffer, x, y, width: width
+          res = @image imgArrayBuffer, x, y, width: width
+          # Height of a PNG is at offset 20, stored on 4 bytes, in Big endian
+          height = imgArrayBuffer.readUInt32BE 20
+          futureY = Math.max futureY, (y + height)
         x += width
       [@x, @y] = [futureX, futureY]
       @
@@ -178,6 +181,7 @@ Meteor.startup ->
     finish: (filename, callback) ->
       @end()
       @stream.on 'finish', =>
-        saveAs @stream.toBlob(), s.slugify filename
+        content = @stream.toBlob()
+        saveAs @stream.toBlob('application/pdf'), s.slugify filename
         # Call provided callback
         callback()

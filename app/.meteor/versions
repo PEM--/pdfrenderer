@@ -48,7 +48,7 @@ mquandalle:jade-compiler@0.4.3
 mquandalle:stylus@1.1.1
 observe-sequence@1.0.6
 ordered-dict@1.0.3
-pierreeric:pdfrenderer@0.0.3
+pierreeric:pdfrenderer@0.0.4
 pierreeric:rxbufferdownload@0.0.1
 pierreeric:rxscreenshot@0.0.1
 raix:eventemitter@0.1.2

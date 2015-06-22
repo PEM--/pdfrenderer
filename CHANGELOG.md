@@ -1,3 +1,7 @@
+# 0.0.5 - Auto-adjust height on image packing
+* Take the maximum height of provided images when using `packRatioImgs`.
+* Better MIME type management.
+
 # 0.0.4 - Options for image placement
 * `FULL`: Full width of the page.
 * `RATIO`: A ratio of the full page's width.
