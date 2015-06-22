@@ -100,7 +100,9 @@ Meteor.startup ->
      *                          * `INLINE`: Directly within the text (default).
      *                          * `FULL`: Full width of the page.
      *                          * `RIGHT`: Right aligned to text (need width).
-     * @param  {Object} options Options as provided by `image` method of PDFKit.
+     *                          * `RATIO`: A ratio of the full page's width.
+     * @param  {Object} options Options as provided by `image` method of PDFKit
+     *                          or for `RATIO`, a percentage of the full page.
      * @return {Object}         this.
     ###
     img: (url, pos = 'INLINE', options) ->
