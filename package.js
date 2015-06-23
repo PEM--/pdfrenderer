@@ -1,6 +1,6 @@
 Package.describe({
   name: 'pierreeric:pdfrenderer',
-  version: '0.0.6',
+  version: '0.0.7',
   summary: 'A client side PDF renderer',
   git: 'https://github.com/PEM--/pdfrenderer.git',
   documentation: 'README.md'
@@ -14,6 +14,7 @@ Package.onUse(function(api) {
     'coffeescript',
     'check',
     // Community packages
+    'momentjs:moment@2.10.3',
     'mquandalle:bower@1.4.1',
     'iron:controller@1.0.8',
     'aldeed:simple-schema@1.3.3',

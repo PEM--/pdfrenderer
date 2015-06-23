@@ -176,7 +176,7 @@ Meteor.startup ->
                 value = TAPi18n.__ innerData
               # Set value for other types
               else
-                value = String innerData
+                value = TAPi18n.__ innerData
                 # Add units if available in the schema
                 if def.autoform?.afFieldInput?.unit?
                   value += ' ' + def.autoform.afFieldInput.unit()

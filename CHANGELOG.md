@@ -1,3 +1,6 @@
+# 0.0.7 - Force TAPi18n, sub-Schema, Date, Boolean
+* Always use TAPi18n on displayed value.
+
 # 0.0.6 - Root of a SimpleSchema & recursion on Object
 * When no filter provided, the renderer parse the complete SimpleSchema.
 * The renderer recurses on Object.
