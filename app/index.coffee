@@ -1,19 +1,22 @@
 # In this SimpleSchema, some content are set as 'pdf: true'
 # for automatic rendering.
-CustomerSchema = new SimpleSchema
+@CustomerSchema = new SimpleSchema
   name:
     type: String
     label: TAPi18n.__ 'name'
+    pdf: true
   images:
     type: String
     label: TAPi18n.__ 'images'
     optional: true
+    pdf: true
     autoform: afFieldInput:
       type: 'fileUpload'
       collection: 'Images'
   address:
     type: Object
     label: TAPi18n.__ 'address'
+    pdf: true
   'address.street':
     type: String
     label: TAPi18n.__ 'street'
@@ -114,8 +117,12 @@ if Meteor.isClient
           pdf.h1 t.customer.name
           # Address of customer
           pdf.h2 TAPi18n.__ 'address'
-          pdf.schema CustomerSchema, 'address', t.customer
+            .schema CustomerSchema, 'address', t.customer
           # Graph of the purchase figure
           pdf.img 'svg-chart'
+          # Same print out as before but without filtering (less flexible
+          # in terms of layout but cover more automatic cases).
+          pdf.hr()
+            .schema CustomerSchema, '', t.customer
           # End the PDF document and display it
           pdf.finish "file-#{t.customer.name}.pdf", -> console.log 'PDF done'

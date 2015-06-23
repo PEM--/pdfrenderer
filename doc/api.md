@@ -154,7 +154,7 @@ Insert elements from a SimpleSchema if their content
 ### Params:
 
 * **Object** *Schema* A SimpleSchema.
-* **String** *keyFilter* A key in the SimpleSchema.
+* **String** *keyFilter* A key in the SimpleSchema, an empty String                            for no filter.
 * **Object** *data* Data fetched from Mongo.
 
 ### Return:

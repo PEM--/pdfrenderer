@@ -1,3 +1,7 @@
+# 0.0.6 - Root of a SimpleSchema & recursion on Object
+* When no filter provided, the renderer parse the complete SimpleSchema.
+* The renderer recurses on Object.
+
 # 0.0.5 - Auto-adjust height on image packing
 * Take the maximum height of provided images when using `packRatioImgs`.
 * Better MIME type management.

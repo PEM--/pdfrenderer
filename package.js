@@ -1,6 +1,6 @@
 Package.describe({
   name: 'pierreeric:pdfrenderer',
-  version: '0.0.5',
+  version: '0.0.6',
   summary: 'A client side PDF renderer',
   git: 'https://github.com/PEM--/pdfrenderer.git',
   documentation: 'README.md'

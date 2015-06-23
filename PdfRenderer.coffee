@@ -87,7 +87,7 @@ Meteor.startup ->
     hr: ->
       @moveDown .5
       x = @page.margins.left
-      y = pdf.y
+      y = @y
       width = @page.width - @page.margins.left - @page.margins.right
       @moveTo x, y
       @lineTo width + x, y
@@ -149,26 +149,39 @@ Meteor.startup ->
      * Insert elements from a SimpleSchema if their content
      *  is marked as `pdf: true`.
      * @param  {Object} Schema    A SimpleSchema.
-     * @param  {String} keyFilter A key in the SimpleSchema.
+     * @param  {String} keyFilter A key in the SimpleSchema, an empty String
+     *                            for no filter.
      * @param  {Object} data      Data fetched from Mongo.
      * @return {Object}           this.
     ###
     schema: (Schema, keyFilter, data) ->
       for label in Schema.objectKeys keyFilter
-        # Check if property need to be printed
-        def = Schema.getDefinition "#{keyFilter}.#{label}"
+        # Check if property needs to be printed
+        defName = if keyFilter is '' then label else "#{keyFilter}.#{label}"
+        def = Schema.getDefinition defName
         # Check if value is printable
         if def.pdf
-          # Set value for select/option kind of values
-          if def.autoform?.afFieldInput?.type is 'select'
-            value = TAPi18n.__ data[keyFilter][label]
-          # Set value for other types
+          # Check type of data
+          innerData = if keyFilter is '' then data[label] \
+            else data[keyFilter][label]
+          if (_.isObject innerData) and not (_.isArray innerData)
+            # Recurse on Object (sub-SimpleSchema)
+            @h3 TAPi18n.__ label
+            @schema Schema, label, data
           else
-            value = String(data[keyFilter][label])
-            # Add units if available in the schema
-            if def.autoform?.afFieldInput?.unit?
-              value += ' ' + def.autoform.afFieldInput.unit()
-          @p TAPi18n.__(label) + TAPi18n.__('colon') + value
+            # Omit optional field with empty value
+            unless innerData is undefined
+              # Set value for select/option kind of values
+              if def.autoform?.afFieldInput?.type is 'select'
+                value = TAPi18n.__ innerData
+              # Set value for other types
+              else
+                value = String innerData
+                # Add units if available in the schema
+                if def.autoform?.afFieldInput?.unit?
+                  value += ' ' + def.autoform.afFieldInput.unit()
+              @p TAPi18n.__(label) + TAPi18n.__('colon') + value
+      @
     ###*
      * End document and open a new window containing the PDF.
      * @param  {String} filename Filename for the generated PDF. Note that
