@@ -107,6 +107,17 @@ Your i18n file must at least contain the following for using SimpleSchema:
 }
 ```
 
+### How to format `Date`?
+Use the proper package modifier of (MomentJS)[http://momentjs.com/] for your
+locales:
+```bash
+# For french:
+meteor add rzymek:moment-locale-fr
+# For German:
+meteor add rzymek:moment-locale-de
+...
+```
+
 ### Testing
 A test application is provided in the `app` folder.
 
