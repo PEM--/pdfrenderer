@@ -107,17 +107,15 @@ if Meteor.isClient
   Template.svgTest.helpers
     customer: -> Template.instance().customer
     table: ->
-      theadLabel = _.first CustomerSchema.objectKeys('purchases.$')
+      keys = CustomerSchema.objectKeys 'purchases.$'
+      theadLabel = _.first keys
       purchases = Template.instance().customer.purchases
+      # Exposed results for the helper
       res =
         tableName: CustomerSchema.getDefinition('purchases').label
         labels: _.pluck purchases, theadLabel
-        lines: []
-      for label in _.rest CustomerSchema.objectKeys('purchases.$')
-        res.lines.push _.flatten [
-          TAPi18n.__ label
-          _.pluck purchases, label
-        ]
+        lines: _.map (_.rest keys), (label) ->
+          _.flatten [(TAPi18n.__ label), (_.pluck purchases, label)]
       res
   # Handle events for the PDF button
   Template.svgTest.events
