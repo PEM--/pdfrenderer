@@ -191,6 +191,18 @@ Insert elements from a SimpleSchema if their content
 
 * **Object** this.
 
+## formatter(innerData)
+
+Formats value depending on their types.
+
+### Params:
+
+* **Boolean|Number|String|Date** *innerData* Data to format.
+
+### Return:
+
+* **String** Formatted data, null if no match.
+
 ## finish(filename, callback)
 
 End document and open a new window containing the PDF.

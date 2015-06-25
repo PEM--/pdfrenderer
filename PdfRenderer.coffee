@@ -210,11 +210,16 @@ Meteor.startup ->
               # The data type is an Array
               if _.isArray innerData
                 keys = Schema.objectKeys "#{label}.$"
-                theadLabel = _.first keys
+                theadLabel = @formatter _.first keys
                 @table Schema.getDefinition(label).label,
                   (_.pluck innerData, theadLabel),
-                  (_.map (_.rest keys), (label) ->
-                    _.flatten [(TAPi18n.__ label),(_.pluck innerData, label)])
+                  # Iterate over each rows
+                  _.map (_.rest keys), (label) =>
+                    _.flatten [
+                        (@formatter label)
+                        _.map (_.pluck innerData, label), (innerLabel) =>
+                          @formatter innerLabel
+                      ]
                 # Nullify value: printing is already ensured in the loops.
                 value = null
               # The data type is an unnamed sub-Schema
@@ -233,7 +238,13 @@ Meteor.startup ->
             unless value is null
               @p TAPi18n.__(label) + TAPi18n.__('colon') + value
       @
+    ###*
+     * Formats value depending on their types.
+     * @param  {Boolean|Number|String|Date} innerData Data to format.
+     * @return {String|null} Formatted data, null if no match.
+    ###
     formatter: (innerData) ->
+      console.log innerData, typeof innerData
       switch
         # Set value for type Boolean
         when _.isBoolean innerData
