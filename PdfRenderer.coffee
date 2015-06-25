@@ -168,14 +168,12 @@ Meteor.startup ->
           unless innerData is undefined
             # Format value depending on data type
             switch
-              # Set value for Object (unnamed sub-Schema)
-              when (_.isObject innerData) and not (_.isArray innerData)
-                # Recurse on Object (sub-SimpleSchema)
-                @h3 TAPi18n.__ label
-                @schema Schema, label, data
               # Set value for select/option kind of values
               when def.autoform?.afFieldInput?.type is 'select'
                 value = TAPi18n.__ innerData
+              # Set value for type Boolean
+              when _.isBoolean innerData
+                value = TAPi18n.__ if innerData then  'yes' else 'no'
               # Set value for type Number
               when _.isNumber innerData
                 value = String innerData
@@ -183,11 +181,22 @@ Meteor.startup ->
                 if def.autoform?.afFieldInput?.unit?
                   value += ' ' + TAPi18n.__ def.autoform.afFieldInput.unit()
               # Set value for type String (adds i18n support)
-              when _.isString innerData then value = TAPi18n.__ innerData
+              when _.isString innerData
+                value = TAPi18n.__ innerData
+              # Set value for Object (unnamed sub-Schema)
+              when (_.isObject innerData) and not (_.isArray innerData)
+                # Recurse on Object (sub-SimpleSchema)
+                @h3 TAPi18n.__ label
+                @schema Schema, label, data
+                # Nullify value: printing is already ensured in the recursion.
+                value = null
               else
                 console.warn 'Unmanaged data type', keyFilter, innerData
+                # Nullify value: there's no need to print an unmanaged type.
+                value = null
             # Print the value in the PDF
-            @p TAPi18n.__(label) + TAPi18n.__('colon') + value
+            unless value is null
+              @p TAPi18n.__(label) + TAPi18n.__('colon') + value
       @
     ###*
      * End document and open a new window containing the PDF.
