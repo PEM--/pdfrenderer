@@ -16,3 +16,4 @@ aldeed:collection2
 aldeed:simple-schema
 tap:i18n
 cfs:gridfs
+rzymek:moment-locale-fr

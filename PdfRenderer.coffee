@@ -181,8 +181,9 @@ Meteor.startup ->
                 if def.autoform?.afFieldInput?.unit?
                   value += ' ' + TAPi18n.__ def.autoform.afFieldInput.unit()
               # Set value for type String (adds i18n support)
-              when _.isString innerData
-                value = TAPi18n.__ innerData
+              when _.isString innerData then value = TAPi18n.__ innerData
+              # Set value for type Date
+              when _.isDate innerData then value = moment(innerData).format 'L'
               # Set value for Object (unnamed sub-Schema)
               when (_.isObject innerData) and not (_.isArray innerData)
                 # Recurse on Object (sub-SimpleSchema)
