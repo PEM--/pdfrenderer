@@ -84,15 +84,19 @@ Meteor.startup ->
      * Insert a line.
      * @return {Object} this.
     ###
-    hr: ->
-      @moveDown .5
-      x = @page.margins.left
-      y = @y
-      width = @page.width - @page.margins.left - @page.margins.right
-      @moveTo x, y
-      @lineTo width + x, y
-      @stroke()
-      @moveDown .5
+    hr: -> @moveDown(.5).line().moveDown .5
+    ###*
+     * Draw a simple horizontal line with no vertical margin.
+     * @return {Object} this.
+    ###
+    line: ->
+      [x, y] = [@page.margins.left, @y]
+      @moveTo(x, y).lineTo(@fullPageWidth() + x, y).stroke()
+    ###*
+     * Get the current full page's width minus its margins.
+     * @return {Number} The full page's width.
+    ###
+    fullPageWidth: -> @page.width - @page.margins.left - @page.margins.right
     ###*
      * Insert an image already downloaded using the `addAsset` method.
      * @param  {String} url     URL of the image.
@@ -110,11 +114,9 @@ Meteor.startup ->
       switch pos
         when 'INLINE' then @image imgArrayBuffer, options
         when 'FULL'
-          @image imgArrayBuffer,
-            width: @page.width - @page.margins.right - @page.margins.left
+          @image imgArrayBuffer, width: @fullPageWidth()
         when 'RATIO'
-          fullPageWidth = @page.width - @page.margins.right - @page.margins.left
-          @image imgArrayBuffer, width: fullPageWidth * options
+          @image imgArrayBuffer, width: @fullPageWidth() * options
         when 'RIGHT'
           [oldX, oldY] = [@x, @y]
           x = @page.width - options.width - @page.margins.right
@@ -122,6 +124,29 @@ Meteor.startup ->
           @image imgArrayBuffer, x, y, options
           [@x, @y] = [oldX, oldY]
       @
+    table: (theadLabel, labels, lines) ->
+      colWidth = @fullPageWidth() / (labels.length + 1)
+      [x, y] = [@page.margins.left, @y]
+      # Create table's header
+      @line().fontSize(13).text theadLabel, x, y
+      for label, idx in labels
+        x += colWidth
+        @text label, x, y
+      # Create tables's body
+      # @line()
+      #   .fontSize(12).text _.first lines[]
+
+
+      # keys = CustomerSchema.objectKeys 'purchases.$'
+      # theadLabel = _.first keys
+      # purchases = Template.instance().customer.purchases
+      # # Exposed results for the helper
+      # res =
+      #   tableName: CustomerSchema.getDefinition('purchases').label
+      #   labels: _.pluck purchases, theadLabel
+      #   lines: _.map (_.rest keys), (label) ->
+      #     _.flatten [(TAPi18n.__ label), (_.pluck purchases, label)]
+      # res
     ###*
      * Pack images ratio on a single row.
      * @param  {Array} imgs An array of `img` in `RATIO` mode.
@@ -130,10 +155,9 @@ Meteor.startup ->
     packRatioImgs: (imgs) ->
       x = futureX = @page.margins.left
       y = futureY = @y
-      fullPageWidth = @page.width - @page.margins.right - @page.margins.left
       for img, idx in imgs
         imgArrayBuffer = @assets[img.url].getBuffer()
-        width = fullPageWidth * img.options
+        width = @fullPageWidth() * img.options
         if idx is 0
           res = @image imgArrayBuffer, width: width
           futureY = @y
@@ -188,7 +212,7 @@ Meteor.startup ->
               when _.isObject innerData
                 # The data type is an Array
                 if _.isArray innerData
-                    
+
 
                   # Nullify value: printing is already ensured in the loops.
                   value = null

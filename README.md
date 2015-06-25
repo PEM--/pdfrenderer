@@ -108,7 +108,7 @@ Your i18n file must at least contain the following for using SimpleSchema:
 ```
 
 ### How to format `Date`?
-Use the proper package modifier of (MomentJS)[http://momentjs.com/] for your
+Use the proper package modifier of [MomentJS](http://momentjs.com/) for your
 locales:
 ```bash
 # For french:

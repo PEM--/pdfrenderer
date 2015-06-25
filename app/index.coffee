@@ -146,6 +146,14 @@ if Meteor.isClient
             .schema CustomerSchema, 'address', t.customer
           # Graph of the purchase figure
           pdf.img 'svg-chart'
+          # Create a simple table
+          keys = CustomerSchema.objectKeys 'purchases.$'
+          theadLabel = _.first keys
+          purchases = t.customer.purchases
+          pdf.table CustomerSchema.getDefinition('purchases').label,
+            (_.pluck purchases, theadLabel),
+            (_.map (_.rest keys), (label) ->
+              _.flatten [(TAPi18n.__ label), (_.pluck purchases, label)])
           # Same print out as before but without filtering (less flexible
           # in terms of layout but cover more automatic cases).
           pdf.hr()

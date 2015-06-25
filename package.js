@@ -13,6 +13,7 @@ Package.onUse(function(api) {
     // Package from MDG
     'coffeescript',
     'check',
+    'underscore',
     // Community packages
     'momentjs:moment@2.10.3',
     'mquandalle:bower@1.4.1',
