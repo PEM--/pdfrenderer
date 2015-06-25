@@ -1,4 +1,4 @@
-# 0.0.8 - Sub-SimpleSchema and Array of sub-SimpleSchema
+# 0.0.8 - 0.0.9 - Sub-SimpleSchema and Array of sub-SimpleSchema
 * Set all fields of unitary and Array of sub-SimpleSchema in a formatter.
 
 # 0.0.7 - Force TAPi18n, Boolean, Date, Array, table

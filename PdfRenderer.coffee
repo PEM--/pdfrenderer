@@ -246,7 +246,6 @@ Meteor.startup ->
      * @return {String|null} Formatted data, null if no match.
     ###
     formatter: (innerData) ->
-      console.log innerData, typeof innerData
       switch
         # Set value for type Boolean
         when _.isBoolean innerData
