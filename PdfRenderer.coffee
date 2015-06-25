@@ -210,9 +210,11 @@ Meteor.startup ->
               # The data type is an Array
               if _.isArray innerData
                 keys = Schema.objectKeys "#{label}.$"
-                theadLabel = @formatter _.first keys
+                theadLabel = _.first keys
                 @table Schema.getDefinition(label).label,
-                  (_.pluck innerData, theadLabel),
+                  # Format each table header
+                  (_.map (_.pluck innerData, theadLabel), (tlabel) =>
+                    @formatter tlabel),
                   # Iterate over each rows
                   _.map (_.rest keys), (label) =>
                     _.flatten [

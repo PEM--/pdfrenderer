@@ -1,3 +1,6 @@
+# 0.0.8 - Sub-SimpleSchema and Array of sub-SimpleSchema
+* Set all fields of unitary and Array of sub-SimpleSchema in a formatter.
+
 # 0.0.7 - Force TAPi18n, Boolean, Date, Array, table
 * Always use TAPi18n on displayed value.
 * HTML's table equivalent.
