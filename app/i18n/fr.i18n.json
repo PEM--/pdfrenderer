@@ -1,8 +1,12 @@
 {
   /* Required for Schema presentation */
   "colon": " : ",
+  "yes": "Oui",
+  "no": "Non",
   /* Specific to example */
   "name": "Nom",
+  "subscription": "Inscription",
+  "verified": "Vérifié",
   "images": "Images",
   "address": "Adresse",
   "street": "Rue",

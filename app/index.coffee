@@ -13,6 +13,10 @@
     autoform: afFieldInput:
       type: 'fileUpload'
       collection: 'Images'
+  verified:
+    type: Boolean
+    label: TAPi18n.__ 'verified'
+    pdf: true
   address:
     type: Object
     label: TAPi18n.__ 'address'
@@ -42,6 +46,7 @@ if Meteor.isServer
   if Customers.find().count() is 0
     Customers.insert
       name: 'Mathilde Charpentier'
+      verified: true
       address:
         street: '227 rue, Camille de Richelieu'
         city: 'Strasbourg'

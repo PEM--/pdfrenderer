@@ -1,5 +1,6 @@
-# 0.0.7 - Force TAPi18n, sub-Schema, Date, Boolean
+# 0.0.7 - Force TAPi18n, Boolean, Date, Array, sub-Schema, Array of sub-schema
 * Always use TAPi18n on displayed value.
+* Boolean: Print a Yes/No message.
 
 # 0.0.6 - Root of a SimpleSchema & recursion on Object
 * When no filter provided, the renderer parse the complete SimpleSchema.

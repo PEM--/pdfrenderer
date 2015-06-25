@@ -101,7 +101,9 @@ Contributions are very welcomed. Feel free to PR for enhancing this package.
 Your i18n file must at least contain the following for using SimpleSchema:
 ```json
 {
-  "colon": ": "
+  "colon": ": ",
+  "yes": "Yes",
+  "no": "No"
 }
 ```
 

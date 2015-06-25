@@ -161,26 +161,33 @@ Meteor.startup ->
         def = Schema.getDefinition defName
         # Check if value is printable
         if def.pdf
-          # Check type of data
+          # Extract content
           innerData = if keyFilter is '' then data[label] \
             else data[keyFilter][label]
-          if (_.isObject innerData) and not (_.isArray innerData)
-            # Recurse on Object (sub-SimpleSchema)
-            @h3 TAPi18n.__ label
-            @schema Schema, label, data
-          else
-            # Omit optional field with empty value
-            unless innerData is undefined
+          # Omit optional field with empty value
+          unless innerData is undefined
+            # Format value depending on data type
+            switch
+              # Set value for Object (unnamed sub-Schema)
+              when (_.isObject innerData) and not (_.isArray innerData)
+                # Recurse on Object (sub-SimpleSchema)
+                @h3 TAPi18n.__ label
+                @schema Schema, label, data
               # Set value for select/option kind of values
-              if def.autoform?.afFieldInput?.type is 'select'
+              when def.autoform?.afFieldInput?.type is 'select'
                 value = TAPi18n.__ innerData
-              # Set value for other types
-              else
-                value = TAPi18n.__ innerData
+              # Set value for type Number
+              when _.isNumber innerData
+                value = String innerData
                 # Add units if available in the schema
                 if def.autoform?.afFieldInput?.unit?
-                  value += ' ' + def.autoform.afFieldInput.unit()
-              @p TAPi18n.__(label) + TAPi18n.__('colon') + value
+                  value += ' ' + TAPi18n.__ def.autoform.afFieldInput.unit()
+              # Set value for type String (adds i18n support)
+              when _.isString innerData then value = TAPi18n.__ innerData
+              else
+                console.warn 'Unmanaged data type', keyFilter, innerData
+            # Print the value in the PDF
+            @p TAPi18n.__(label) + TAPi18n.__('colon') + value
       @
     ###*
      * End document and open a new window containing the PDF.
