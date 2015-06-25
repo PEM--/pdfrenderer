@@ -160,6 +160,7 @@ Meteor.startup ->
         x = @page.margins.left
         @line()
       [@x, @y] = [@page.margins.left, @y + FONT_SIZE / 2]
+      @
     ###*
      * Pack images ratio on a single row.
      * @param  {Array} imgs An array of `img` in `RATIO` mode.
@@ -222,11 +223,16 @@ Meteor.startup ->
               # Set value for type Date
               when _.isDate innerData then value = moment(innerData).format 'L'
               # Set value for Object
+              # @NOTE Array and Object have the same prototype.
               when _.isObject innerData
                 # The data type is an Array
                 if _.isArray innerData
-
-
+                  keys = Schema.objectKeys "#{label}.$"
+                  theadLabel = _.first keys
+                  @table Schema.getDefinition(label).label,
+                    (_.pluck innerData, theadLabel),
+                    (_.map (_.rest keys), (label) ->
+                      _.flatten [(TAPi18n.__ label),(_.pluck innerData, label)])
                   # Nullify value: printing is already ensured in the loops.
                   value = null
                 # The data type is an unnamed sub-Schema

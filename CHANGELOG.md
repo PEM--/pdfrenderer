@@ -1,4 +1,4 @@
-# 0.0.7 - Force TAPi18n, Boolean, Date, Array, sub-Schema, Array of sub-schema
+# 0.0.7 - Force TAPi18n, Boolean, Date, Array, table
 * Always use TAPi18n on displayed value.
 * HTML's table equivalent.
 * New SimpleSchema types:
