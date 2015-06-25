@@ -1,5 +1,27 @@
-# In this SimpleSchema, some content are set as 'pdf: true'
+# In this sub-SimpleSchema, some content are set as 'pdf: true'
 # for automatic rendering.
+@SocialReferencesSchema = new SimpleSchema
+  twitter:
+    type: String
+    label: 'Twitter'
+    pdf: true
+  facebook:
+    type: String
+    label: 'Facebook'
+    pdf: true
+
+# Another sub-SimpleSchema for checking the cases of Array of SimpleSchema.
+@ConnectionsSchema = new SimpleSchema
+  date:
+    type: Date
+    label: TAPi18n.__ 'date'
+    pdf: true
+  duration:
+    type: Number
+    label: TAPi18n.__ 'duration'
+    pdf: true
+
+# This is the main SimpleSchema, it covers all cases with simple examples.
 @CustomerSchema = new SimpleSchema
   name:
     type: String
@@ -45,6 +67,15 @@
     type: Number
     label: TAPi18n.__ 'number'
     pdf: true
+  socialReferences:
+    type: SocialReferencesSchema
+    label: TAPi18n.__ 'socialReferences'
+    pdf: true
+  connections:
+    type: [ConnectionsSchema]
+    label: TAPi18n.__ 'connections'
+    pdf: true
+
 @Customers = new Mongo.Collection 'customers'
 Customers.attachSchema CustomerSchema
 
@@ -64,6 +95,13 @@ if Meteor.isServer
         {label: 'Tire', number: 3}
         {label: 'Chain', number: 6}
         {label: 'Brake', number: 24}
+      ]
+      socialReferences:
+        twitter: 'Mchar'
+        facebook: 'mcharpentier'
+      connections: [
+        { date: new Date, duration: 180 }
+        { date: new Date, duration: 360 }
       ]
   Meteor.publish 'customers', -> Customers.find()
 

@@ -13,5 +13,9 @@
   "city": "City",
   "purchases": "Purchases",
   "label": "Label",
-  "number": "Number"
+  "number": "Number",
+  "socialReferences": "Social references",
+  "connections": "Connections",
+  "date": "Date",
+  "duration": "Duration"
 }
