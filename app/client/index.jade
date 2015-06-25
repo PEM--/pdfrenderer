@@ -12,6 +12,18 @@ template(name='svgTest')
       with address
         p= street
         p= city
+    with table
+      table
+        thead
+          tr
+            th= tableName
+            each labels
+              th= this
+        tbody
+          each lines
+            tr
+              each this
+                td= this
   else
     p Loading...
   hr

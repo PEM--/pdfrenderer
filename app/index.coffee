@@ -36,12 +36,15 @@
   purchases:
     type: [Object]
     label: TAPi18n.__ 'purchases'
+    pdf: true
   'purchases.$.label':
     type: String
     label: TAPi18n.__ 'label'
+    pdf: true
   'purchases.$.number':
     type: Number
     label: TAPi18n.__ 'number'
+    pdf: true
 @Customers = new Mongo.Collection 'customers'
 Customers.attachSchema CustomerSchema
 
@@ -72,6 +75,7 @@ if Meteor.isClient
     @sub = @subscribe 'customers'
     @autorun =>
       @customer = Customers.findOne() if @sub.ready()
+      window.customer = @customer
   # Here, we create a simple bar chart
   Template.svgTest.onRendered ->
     @autorun =>
@@ -100,7 +104,21 @@ if Meteor.isClient
           .attr 'y', (d) -> 3 + y d.number
           .attr 'dy', '.75em'
           .text (d) -> d.number
-  Template.svgTest.helpers customer: -> Template.instance().customer
+  Template.svgTest.helpers
+    customer: -> Template.instance().customer
+    table: ->
+      theadLabel = _.first CustomerSchema.objectKeys('purchases.$')
+      purchases = Template.instance().customer.purchases
+      res =
+        tableName: CustomerSchema.getDefinition('purchases').label
+        labels: _.pluck purchases, theadLabel
+        lines: []
+      for label in _.rest CustomerSchema.objectKeys('purchases.$')
+        res.lines.push _.flatten [
+          TAPi18n.__ label
+          _.pluck purchases, label
+        ]
+      res
   # Handle events for the PDF button
   Template.svgTest.events
     'click button': (e, t) ->

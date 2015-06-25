@@ -184,13 +184,21 @@ Meteor.startup ->
               when _.isString innerData then value = TAPi18n.__ innerData
               # Set value for type Date
               when _.isDate innerData then value = moment(innerData).format 'L'
-              # Set value for Object (unnamed sub-Schema)
-              when (_.isObject innerData) and not (_.isArray innerData)
-                # Recurse on Object (sub-SimpleSchema)
-                @h3 TAPi18n.__ label
-                @schema Schema, label, data
-                # Nullify value: printing is already ensured in the recursion.
-                value = null
+              # Set value for Object
+              when _.isObject innerData
+                # The data type is an Array
+                if _.isArray innerData
+                    
+
+                  # Nullify value: printing is already ensured in the loops.
+                  value = null
+                # The data type is an unnamed sub-Schema
+                else
+                  # Recurse on Object (sub-SimpleSchema)
+                  @h3 TAPi18n.__ label
+                  @schema Schema, label, data
+                  # Nullify value: printing is already ensured in the recursion.
+                  value = null
               else
                 console.warn 'Unmanaged data type', keyFilter, innerData
                 # Nullify value: there's no need to print an unmanaged type.
