@@ -205,51 +205,48 @@ Meteor.startup ->
           # Omit optional field with empty value
           unless innerData is undefined
             # Format value depending on data type
-            switch
-              # Set value for select/option kind of values
-              when def.autoform?.afFieldInput?.type is 'select'
-                value = TAPi18n.__ innerData
-              # Set value for type Boolean
-              when _.isBoolean innerData
-                value = TAPi18n.__ if innerData then  'yes' else 'no'
-              # Set value for type Number
-              when _.isNumber innerData
-                value = String innerData
-                # Add units if available in the schema
-                if def.autoform?.afFieldInput?.unit?
-                  value += ' ' + TAPi18n.__ def.autoform.afFieldInput.unit()
-              # Set value for type String (adds i18n support)
-              when _.isString innerData then value = TAPi18n.__ innerData
-              # Set value for type Date
-              when _.isDate innerData then value = moment(innerData).format 'L'
-              # Set value for Object
-              # @NOTE Array and Object have the same prototype.
-              when _.isObject innerData
-                # The data type is an Array
-                if _.isArray innerData
-                  keys = Schema.objectKeys "#{label}.$"
-                  theadLabel = _.first keys
-                  @table Schema.getDefinition(label).label,
-                    (_.pluck innerData, theadLabel),
-                    (_.map (_.rest keys), (label) ->
-                      _.flatten [(TAPi18n.__ label),(_.pluck innerData, label)])
-                  # Nullify value: printing is already ensured in the loops.
-                  value = null
-                # The data type is an unnamed sub-Schema
-                else
-                  # Recurse on Object (sub-SimpleSchema)
-                  @h3 TAPi18n.__ label
-                  @schema Schema, label, data
-                  # Nullify value: printing is already ensured in the recursion.
-                  value = null
-              else
-                console.warn 'Unmanaged data type', keyFilter, innerData
-                # Nullify value: there's no need to print an unmanaged type.
+            # @NOTE Array and Object have the same prototype.
+            if _.isObject innerData
+              # The data type is an Array
+              if _.isArray innerData
+                keys = Schema.objectKeys "#{label}.$"
+                theadLabel = _.first keys
+                @table Schema.getDefinition(label).label,
+                  (_.pluck innerData, theadLabel),
+                  (_.map (_.rest keys), (label) ->
+                    _.flatten [(TAPi18n.__ label),(_.pluck innerData, label)])
+                # Nullify value: printing is already ensured in the loops.
                 value = null
+              # The data type is an unnamed sub-Schema
+              else
+                # Recurse on Object (sub-SimpleSchema)
+                @h3 TAPi18n.__ label
+                @schema Schema, label, data
+                # Nullify value: printing is already ensured in the recursion.
+                value = null
+            else
+              value = @formatter innerData
+              # Add units if available in the schema
+              if value isnt null and def.autoform?.afFieldInput?.unit?
+                value += ' ' + TAPi18n.__ def.autoform.afFieldInput.unit()
             # Print the value in the PDF
             unless value is null
               @p TAPi18n.__(label) + TAPi18n.__('colon') + value
       @
+    formatter: (innerData) ->
+      switch
+        # Set value for type Boolean
+        when _.isBoolean innerData
+          return TAPi18n.__ if innerData then  'yes' else 'no'
+        # Set value for type Number
+        when _.isNumber innerData then return String innerData
+        # Set value for type String (adds i18n support)
+        when _.isString innerData then return TAPi18n.__ innerData
+        # Set value for type Date
+        when _.isDate innerData then return moment(innerData).format 'L'
+      console.warn 'Unmanaged data type', innerData
+      return null
+
     ###*
      * End document and open a new window containing the PDF.
      * @param  {String} filename Filename for the generated PDF. Note that

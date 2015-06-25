@@ -47,7 +47,7 @@ if Meteor.isServer
     Customers.insert
       name: 'Mathilde Charpentier'
       address:
-        street: '227 rue, Camille de Richelieu'
+        street: '227, rue Camille de Richelieu'
         city: 'Strasbourg'
   Meteor.publish 'customers', -> Customers.find()
 

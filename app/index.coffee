@@ -87,7 +87,7 @@ if Meteor.isServer
       subscription: new Date
       verified: true
       address:
-        street: '227 rue, Camille de Richelieu'
+        street: '227, rue Camille de Richelieu'
         city: 'Strasbourg'
       purchases: [
         {label: 'Bike', number: 10}
