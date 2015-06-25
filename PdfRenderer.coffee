@@ -8,6 +8,11 @@
 @PdfRenderer = {}
 Meteor.startup ->
   class window.PdfRenderer extends PDFDocument
+    FONT_SIZE = 12
+    H1_SIZE = FONT_SIZE*2
+    H2_SIZE = Math.floor FONT_SIZE*1.5
+    H3_SIZE = Math.floor FONT_SIZE*1.2
+    BOLD_SIZE = Math.floor FONT_SIZE*1.1
     ###*
      * C-tor: Create a PDF document instance.
      * @param  {Object} options As used by PDFKit.
@@ -55,25 +60,25 @@ Meteor.startup ->
      * @param  {String} text Text of the title.
      * @return {Object} this.
     ###
-    h1: (text) -> @fontSize(24).text text
+    h1: (text) -> @fontSize(H1_SIZE).text text
     ###*
      * Insert a sub-title.
      * @param  {String} text Text of the title.
      * @return {Object} this.
     ###
-    h2: (text) -> @fontSize(18).text text
+    h2: (text) -> @fontSize(H2_SIZE).text text
     ###*
      * Insert a sub-sub-title.
      * @param  {String} text Text of the title.
      * @return {Object} this.
     ###
-    h3: (text) -> @fontSize(14).text text
+    h3: (text) -> @fontSize(H3_SIZE).text text
     ###*
      * Insert a paragraph.
      * @param  {String} text Text of the paragraph.
      * @return {Object} this.
     ###
-    p: (text) -> @fontSize(12).text text, align: 'justify'
+    p: (text) -> @fontSize(FONT_SIZE).text text, align: 'justify'
     ###*
      * Insert one or many blank lines.
      * @param  {Number} nb Number of line breaks. 1 as a default.
@@ -124,29 +129,37 @@ Meteor.startup ->
           @image imgArrayBuffer, x, y, options
           [@x, @y] = [oldX, oldY]
       @
-    table: (theadLabel, labels, lines) ->
+    ###*
+     * Draw a simple formatted table that takes the full page's width.
+     * @param  {String} theadLabel  Name of the table.
+     * @param  {Array} labels       Array of String for each table's header.
+     * @param  {Array} rows         2d Array of values (String or Number).
+     * @return {Object}             this.
+    ###
+    table: (theadLabel, labels, rows) ->
       colWidth = @fullPageWidth() / (labels.length + 1)
+      @y += FONT_SIZE / 2
       [x, y] = [@page.margins.left, @y]
       # Create table's header
-      @line().fontSize(13).text theadLabel, x, y
-      for label, idx in labels
-        x += colWidth
-        @text label, x, y
+      @line()
+      y = (@y += FONT_SIZE / 2)
+      @font('Helvetica', 'Helvetica-Bold', BOLD_SIZE).text theadLabel, x, y
+      @text label, (x += colWidth), y for label in labels
       # Create tables's body
-      # @line()
-      #   .fontSize(12).text _.first lines[]
-
-
-      # keys = CustomerSchema.objectKeys 'purchases.$'
-      # theadLabel = _.first keys
-      # purchases = Template.instance().customer.purchases
-      # # Exposed results for the helper
-      # res =
-      #   tableName: CustomerSchema.getDefinition('purchases').label
-      #   labels: _.pluck purchases, theadLabel
-      #   lines: _.map (_.rest keys), (label) ->
-      #     _.flatten [(TAPi18n.__ label), (_.pluck purchases, label)]
-      # res
+      [x, y] = [@page.margins.left, @y]
+      @line()
+      for row in rows
+        y = (@y += FONT_SIZE / 2)
+        for value, idx in row
+          if idx is 0
+            @font 'Helvetica', 'Helvetica-Bold', BOLD_SIZE
+          else
+            @font 'Helvetica', 'Helvetica', FONT_SIZE
+          @text (TAPi18n.__ value), x, y
+          x += colWidth
+        x = @page.margins.left
+        @line()
+      [@x, @y] = [@page.margins.left, @y + FONT_SIZE / 2]
     ###*
      * Pack images ratio on a single row.
      * @param  {Array} imgs An array of `img` in `RATIO` mode.

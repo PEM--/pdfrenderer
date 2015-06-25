@@ -156,7 +156,6 @@ if Meteor.isClient
               _.flatten [(TAPi18n.__ label), (_.pluck purchases, label)])
           # Same print out as before but without filtering (less flexible
           # in terms of layout but cover more automatic cases).
-          pdf.hr()
-            .schema CustomerSchema, '', t.customer
+          pdf.schema CustomerSchema, '', t.customer
           # End the PDF document and display it
           pdf.finish "file-#{t.customer.name}.pdf", -> console.log 'PDF done'

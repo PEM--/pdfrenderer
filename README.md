@@ -1,6 +1,6 @@
 # A client side PDF Renderer
 Enhance client side PDFKit:
-- Adds HTML primitives like h1, h2, h3, p, img, br, hr.
+- Adds HTML primitives like h1, h2, h3, p, img, br, hr, table.
 - Can take a SimpleSchema, parse it and render it.
 - Support for internationalization.
 - Can render external image or images within CollectionFS.
@@ -90,6 +90,7 @@ if Meteor.isClient
 * [SimpleSchema](https://github.com/aldeed/meteor-simple-schema)
 * [tap-i18n](https://github.com/TAPevents/tap-i18n)
 * [RxBufferDownload](https://github.com/PEM--/rxbufferdownload)
+* [RxScreenshot](https://github.com/PEM--/rxscreenshot)
 * [html2canvas](http://html2canvas.hertzen.com/)
 * [FileSaver.js](https://github.com/eligrey/FileSaver.js/)
 
@@ -117,6 +118,10 @@ meteor add rzymek:moment-locale-fr
 meteor add rzymek:moment-locale-de
 ...
 ```
+
+### What are the embedded standard fonts in PDF?
+* [Wikipedia](https://en.wikipedia.org/?title=Portable_Document_Format#Standard_Type_1_Fonts_.28Standard_14_Fonts.29)
+* [Enfocus](http://www.enfocus.com/manuals/referenceguide/pp/10/enus/en-us/concept/c_aa1140975.html)
 
 ### Testing
 A test application is provided in the `app` folder.

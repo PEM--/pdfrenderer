@@ -117,6 +117,22 @@ Insert a line.
 
 * **Object** this.
 
+## line()
+
+Draw a simple horizontal line with no vertical margin.
+
+### Return:
+
+* **Object** this.
+
+## fullPageWidth()
+
+Get the current full page's width minus its margins.
+
+### Return:
+
+* **Number** The full page's width.
+
 ## img(url, pos, options)
 
 Insert an image already downloaded using the `addAsset` method.
@@ -129,6 +145,20 @@ Insert an image already downloaded using the `addAsset` method.
                          * `RIGHT`: Right aligned to text (need width).
                          * `RATIO`: A ratio of the full page's width.
 * **Object** *options* Options as provided by `image` method of PDFKit                          or for `RATIO`, a percentage of the full page.
+
+### Return:
+
+* **Object** this.
+
+## table(theadLabel, labels, rows)
+
+Draw a simple formatted table that takes the full page's width.
+
+### Params:
+
+* **String** *theadLabel* Name of the table.
+* **Array** *labels* Array of String for each table's header.
+* **Array** *rows* 2d Array of values (String or Number).
 
 ### Return:
 
