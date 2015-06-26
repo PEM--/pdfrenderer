@@ -24,6 +24,7 @@
     type: String
     label: TAPi18n.__ 'comments'
     pdf: true
+    optional: true
 
 # This is the main SimpleSchema, it covers all cases with simple examples.
 @CustomerSchema = new SimpleSchema
@@ -105,7 +106,15 @@ if Meteor.isServer
         facebook: 'mcharpentier'
       connections: [
         { date: new Date, duration: 180 }
-        { date: new Date, duration: 360 }
+        {
+          date: new Date
+          duration: 360
+          comments: """
+            Excessively long comments for testing text truncation within
+            table's cells. Note that comments are optional but must be
+            displayed if filled.
+            """
+        }
       ]
   Meteor.publish 'customers', -> Customers.find()
 
