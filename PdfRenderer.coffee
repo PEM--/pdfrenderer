@@ -147,12 +147,16 @@ Meteor.startup ->
       y = (@y += FONT_SIZE / 2)
       @font('Helvetica', 'Helvetica-Bold', BOLD_SIZE).text theadLabel, x, y
       @text label, (x += colWidth), y for label in labels
+      # Register y position as printed text may be empty (when row content
+      #  has empty value for instance).
+      futureY = @y
       # Create tables's body
       [x, y] = [@page.margins.left, @y]
       @line()
       for row in rows
         y = (@y += FONT_SIZE / 2)
         for value, idx in row
+          # Check if text is a row label (the first column).
           if idx is 0
             @font 'Helvetica', 'Helvetica-Bold', BOLD_SIZE
           else
@@ -162,9 +166,15 @@ Meteor.startup ->
             lineBreak: false
             ellipsis: true
           x += colWidth
+          futureY = Math.max futureY, @y
+        # Set x position to the beginning of the page.
         x = @page.margins.left
+        # Adjust y position so that even after empty cells in the table
+        #  the proper row height is taken into account.
+        @y = futureY
+        # Draw a closing line for the table.
         @line()
-      [@x, @y] = [@page.margins.left, @y + FONT_SIZE / 2]
+      [@x, @y] = [@page.margins.left, futureY + FONT_SIZE / 2]
       @moveDown SMALL_MARGIN
     ###*
      * Pack images ratio on a single row.
@@ -222,13 +232,11 @@ Meteor.startup ->
                     @formatter tlabel),
                   # Iterate over each rows
                   _.map (_.rest keys), (rowName) =>
-                    res = _.flatten [
-                        (@formatter rowName)
-                        _.map (_.pluck innerData, rowName), (innerLabel) =>
-                          @formatter innerLabel
-                      ]
-                    console.log res
-                    res
+                    _.flatten [
+                      (@formatter rowName)
+                      _.map (_.pluck innerData, rowName), (innerLabel) =>
+                        @formatter innerLabel
+                    ]
                 # Nullify value: printing is already ensured in the loops.
                 value = null
               # The data type is an unnamed sub-Schema
