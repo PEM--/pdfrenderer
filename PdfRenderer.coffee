@@ -142,11 +142,18 @@ Meteor.startup ->
       colWidth = @fullPageWidth() / (labels.length + 1)
       @y += FONT_SIZE / 2
       [x, y] = [@page.margins.left, @y]
+      # Options used for text truncation and ellipsis
+      truncOptions =
+        width: colWidth
+        lineBreak: false
+        ellipsis: true
+        height: BOLD_SIZE
       # Create table's header
       @line()
       y = (@y += FONT_SIZE / 2)
-      @font('Helvetica', 'Helvetica-Bold', BOLD_SIZE).text theadLabel, x, y
-      @text label, (x += colWidth), y for label in labels
+      @font 'Helvetica', 'Helvetica-Bold', BOLD_SIZE
+        .text theadLabel, x, y, truncOptions
+      @text label, (x += colWidth), y, truncOptions for label in labels
       # Register y position as printed text may be empty (when row content
       #  has empty value for instance).
       futureY = @y
@@ -161,11 +168,7 @@ Meteor.startup ->
             @font 'Helvetica', 'Helvetica-Bold', BOLD_SIZE
           else
             @font 'Helvetica', 'Helvetica', FONT_SIZE
-          @text value, x, y,
-            width: colWidth
-            lineBreak: false
-            ellipsis: true
-            height: BOLD_SIZE
+          @text value, x, y, truncOptions
           x += colWidth
           futureY = Math.max futureY, @y
         # Set x position to the beginning of the page.
