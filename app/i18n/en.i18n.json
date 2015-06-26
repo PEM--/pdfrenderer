@@ -18,5 +18,5 @@
   "connections": "Connections",
   "date": "Date",
   "duration": "Duration",
-  "comments": "Comments"
+  "comments": "Label for comments volontary too long to check zone overlapping and text truncation"
 }

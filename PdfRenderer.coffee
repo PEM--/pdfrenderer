@@ -165,6 +165,7 @@ Meteor.startup ->
             width: colWidth
             lineBreak: false
             ellipsis: true
+            height: BOLD_SIZE
           x += colWidth
           futureY = Math.max futureY, @y
         # Set x position to the beginning of the page.
