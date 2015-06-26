@@ -8,11 +8,12 @@
 @PdfRenderer = {}
 Meteor.startup ->
   class window.PdfRenderer extends PDFDocument
-    FONT_SIZE = 12
+    FONT_SIZE = 10
     H1_SIZE = FONT_SIZE*2
     H2_SIZE = Math.floor FONT_SIZE*1.5
     H3_SIZE = Math.floor FONT_SIZE*1.2
     BOLD_SIZE = Math.floor FONT_SIZE*1.1
+    SMALL_MARGIN = .3
     ###*
      * C-tor: Create a PDF document instance.
      * @param  {Object} options As used by PDFKit.
@@ -66,13 +67,13 @@ Meteor.startup ->
      * @param  {String} text Text of the title.
      * @return {Object} this.
     ###
-    h2: (text) -> @fontSize(H2_SIZE).text text
+    h2: (text) -> @fontSize(H2_SIZE).moveDown(SMALL_MARGIN).text text
     ###*
      * Insert a sub-sub-title.
      * @param  {String} text Text of the title.
      * @return {Object} this.
     ###
-    h3: (text) -> @fontSize(H3_SIZE).text text
+    h3: (text) -> @fontSize(H3_SIZE).moveDown(SMALL_MARGIN).text text
     ###*
      * Insert a paragraph.
      * @param  {String} text Text of the paragraph.
@@ -131,6 +132,7 @@ Meteor.startup ->
       @
     ###*
      * Draw a simple formatted table that takes the full page's width.
+     * Note that the caller must pass formatted and internationalized Strings.
      * @param  {String} theadLabel  Name of the table.
      * @param  {Array} labels       Array of String for each table's header.
      * @param  {Array} rows         2d Array of values (String or Number).
@@ -155,12 +157,15 @@ Meteor.startup ->
             @font 'Helvetica', 'Helvetica-Bold', BOLD_SIZE
           else
             @font 'Helvetica', 'Helvetica', FONT_SIZE
-          @text (TAPi18n.__ value), x, y
+          @text value, x, y,
+            width: colWidth
+            lineBreak: false
+            ellipsis: true
           x += colWidth
         x = @page.margins.left
         @line()
       [@x, @y] = [@page.margins.left, @y + FONT_SIZE / 2]
-      @
+      @moveDown SMALL_MARGIN
     ###*
      * Pack images ratio on a single row.
      * @param  {Array} imgs An array of `img` in `RATIO` mode.
@@ -216,12 +221,14 @@ Meteor.startup ->
                   (_.map (_.pluck innerData, theadLabel), (tlabel) =>
                     @formatter tlabel),
                   # Iterate over each rows
-                  _.map (_.rest keys), (label) =>
-                    _.flatten [
-                        (@formatter label)
-                        _.map (_.pluck innerData, label), (innerLabel) =>
+                  _.map (_.rest keys), (rowName) =>
+                    res = _.flatten [
+                        (@formatter rowName)
+                        _.map (_.pluck innerData, rowName), (innerLabel) =>
                           @formatter innerLabel
                       ]
+                    console.log res
+                    res
                 # Nullify value: printing is already ensured in the loops.
                 value = null
               # The data type is an unnamed sub-Schema
@@ -242,7 +249,7 @@ Meteor.startup ->
       @
     ###*
      * Formats value depending on their types.
-     * @param  {Boolean|Number|String|Date} innerData Data to format.
+     * @param  {BaseType} innerData   Data to format.
      * @return {String|null} Formatted data, null if no match.
     ###
     formatter: (innerData) ->
@@ -256,9 +263,11 @@ Meteor.startup ->
         when _.isString innerData then return TAPi18n.__ innerData
         # Set value for type Date
         when _.isDate innerData then return moment(innerData).format 'L'
-      console.warn 'Unmanaged data type', innerData
+        # Set value for null, NaN and undefined
+        when (_.isNaN innerData) or (_.isNull innerData) or \
+            (_.isUndefined innerData) then return ''
+      console.warn 'Unmanaged data type', innerData, typeof innerData
       return null
-
     ###*
      * End document and open a new window containing the PDF.
      * @param  {String} filename Filename for the generated PDF. Note that

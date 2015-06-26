@@ -153,6 +153,7 @@ Insert an image already downloaded using the `addAsset` method.
 ## table(theadLabel, labels, rows)
 
 Draw a simple formatted table that takes the full page's width.
+Note that the caller must pass formatted and internationalized Strings.
 
 ### Params:
 
@@ -197,7 +198,7 @@ Formats value depending on their types.
 
 ### Params:
 
-* **Boolean|Number|String|Date** *innerData* Data to format.
+* **BaseType** *innerData* Data to format.
 
 ### Return:
 

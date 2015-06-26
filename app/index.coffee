@@ -20,6 +20,10 @@
     type: Number
     label: TAPi18n.__ 'duration'
     pdf: true
+  comments:
+    type: String
+    label: TAPi18n.__ 'comments'
+    pdf: true
 
 # This is the main SimpleSchema, it covers all cases with simple examples.
 @CustomerSchema = new SimpleSchema

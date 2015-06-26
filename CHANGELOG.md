@@ -1,3 +1,9 @@
+# 0.0.10 - Ellipsis, Static formatting, New data types (null, NaN, undefined)
+* Add ellipsis and text truncation to fixed width text (table, essentially).
+* Add a small margin before h2 and h3.
+* Add a small margin after table.
+* Handle data types for null, NaN and undefined as empty strings.
+
 # 0.0.8 - 0.0.9 - Sub-SimpleSchema and Array of sub-SimpleSchema
 * Set all fields of unitary and Array of sub-SimpleSchema in a formatter.
 
