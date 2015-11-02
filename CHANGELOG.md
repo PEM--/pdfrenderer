@@ -1,3 +1,6 @@
+# 0.1.0 - Meteor 1.2.1
+* Package bumped
+
 # 0.0.10 - Ellipsis, Static formatting, New data types (null, NaN, undefined)
 * Add ellipsis and text truncation to fixed width text (table, essentially).
 * Add a small margin before h2 and h3.
